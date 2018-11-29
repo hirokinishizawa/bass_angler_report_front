@@ -1,5 +1,7 @@
 const pkg = require('./package')
 
+const isDebug = () => process.env.APP_DEBUG && process.env.APP_DEBUG !== 'false'
+
 module.exports = {
   mode: 'spa',
 
@@ -16,42 +18,48 @@ module.exports = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
-  /*
-  ** Customize the progress-bar color
-  */
   loading: { color: '#fff' },
 
-  /*
-  ** Global CSS
-  */
-  css: ['element-ui/lib/theme-chalk/index.css'],
+  css: ['element-ui/lib/theme-chalk/index.css', '~/assets/scss/app.scss'],
 
-  /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: ['@/plugins/element-ui'],
-
-  /*
-  ** Nuxt.js modules
-  */
-  modules: [
-    // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
-  ],
-  /*
-  ** Axios module configuration
-  */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+  router: {
+    base: '/',
+    middleware: ['check-auth'],
+    extendRoutes(routes) {
+      routes.push({
+        name: 'app-root',
+        path: '/',
+        redirect: { name: 'home' }
+      })
+    },
+    parseQuery(query) {
+      return require('query-string').parse(query, {
+        arrayFormat: 'bracket'
+      })
+    },
+    stringifyQuery(params) {
+      if (Object.keys(params).length === 0) {
+        return ''
+      }
+      const query = require('query-string').stringify(params, {
+        arrayFormat: 'bracket'
+      })
+      return `?${query}`
+    }
   },
 
-  /*
-  ** Build configuration
-  */
+  plugins: ['@/plugins/element-ui'],
+
+  modules: ['@nuxtjs/axios'],
+  axios: {
+    baseURL: process.env.API_ROOT || 'http://localhost:8000',
+    redirectError: {
+      401: '/logout'
+    },
+    debug: isDebug()
+  },
+
   build: {
-    /*
-    ** You can extend webpack config here
-    */
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
