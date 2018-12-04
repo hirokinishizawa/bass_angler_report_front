@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { forEach } from 'lodash-es'
 
 const namespaced = true
 
@@ -43,12 +44,16 @@ const actions = {
     } finally {
       commit('toggleLoading')
     }
+  },
+  async createReport({ commit }, formData) {
+    const data = await this.$axios.post('/api/report', formData)
+    commit('addReports', [data.data])
   }
 }
 
 const mutations = {
   addReports(state, data) {
-    data.forEach(d => {
+    forEach(data, d => {
       state.reports.push(d)
     })
   },

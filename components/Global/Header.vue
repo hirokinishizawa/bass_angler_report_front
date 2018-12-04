@@ -22,14 +22,21 @@
         </span>
       </template>
     </div>
+    <create-report-modal　v-if="isShow" 
+      @cancel="cancelModal" 
+      @submit="onSubmit"/>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import CreateReportModal from '@/components/Report/CreateReportModal'
 
 export default {
   name: 'Header',
+  components: {
+    CreateReportModal
+  },
   data() {
     return {
       isShow: false
@@ -49,9 +56,20 @@ export default {
       return this.user ? `${this.user.sei}${this.user.mei}` : ''
     }
   },
-  method: {
-    closeModal() {
+  methods: {
+    ...mapActions({
+      createReport: 'report/createReport'
+    }),
+    cancelModal() {
       this.isShow = false
+    },
+    async onSubmit(data) {
+      try {
+        await this.createReport(data)
+        this.isShow = false
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 }
