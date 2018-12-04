@@ -29,6 +29,8 @@ import authApi from '@/api/auth'
 
 export default {
   layout: 'default',
+  middleware: ['anonymous'],
+
   data() {
     return {
       formData: {

@@ -1,16 +1,14 @@
 <template>
-  <header class="header__wrapper">
-    <div class="header">
-      <div class="logo">
-        <nuxt-link :to="'home'">
-          <img src="~assets/img/d-bass.png">
-        </nuxt-link>
-      </div>
-      <div 
-        v-if="loggedIn" 
-        class="header-right"/>
+  <div class="header">
+    <div class="logo">
+      <nuxt-link to="/">
+        <img src="~assets/img/d-bass.png">
+      </nuxt-link>
     </div>
-  </header>
+    <div 
+      v-if="loggedIn" 
+      class="header-right"/>
+  </div>
 </template>
 
 <script>
@@ -39,9 +37,15 @@ export default {
 <style lang="scss" scoped>
 .header {
   height: 50px;
+  width: 100%;
   font-size: 16px;
   line-height: 50px;
+  background-color: white;
   border-bottom: 1px solid #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 
   .logo {
     float: left;

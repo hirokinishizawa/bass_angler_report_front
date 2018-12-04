@@ -4,7 +4,6 @@ import {
 } from '~/utils/auth'
 
 export default function({ store, req }) {
-  // If nuxt generate, pass this middleware
   const isServer = process.server
   if (isServer && !req) return
   const authData = isServer

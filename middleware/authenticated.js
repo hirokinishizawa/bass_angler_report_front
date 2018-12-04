@@ -18,17 +18,4 @@ export default async ({ store, app, route, redirect }) => {
     }
     app.$axios.setToken(store.getters['auth/accessToken'], 'Bearer')
   }
-
-  if (!store.getters['user/user']) {
-    await store.dispatch('user/fetch')
-  }
-
-  // 無料版のみ下記のページ以外にアクセスしたら/talentに戻るように
-  const complimentaryRoutes = [
-    'talent',
-    'agent',
-    'organization-edit',
-    'agent-id-edit',
-    'private-entry'
-  ]
 }

@@ -21,7 +21,7 @@ const actions = {
     try {
       const authData = await api.login(this, form)
       commit('addToken', authData)
-      setAuthData(authData)
+      setAuthData(authData.meta)
     } catch (e) {
       throw new Error('Request failed.')
     }

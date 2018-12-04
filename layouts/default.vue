@@ -20,14 +20,15 @@ export default {
 <style lang="scss" scoped>
 .app {
   &__wrapper {
-    margin-bottom: 100px;
+    padding-top: 80px;
+    background-color: whitesmoke;
   }
   &__container {
+    margin: 0 auto;
     display: block;
-    max-width: 800px;
+    max-width: 810px;
     width: auto;
-    min-height: calc(100% - 130px);
-    margin: 80px auto 0;
+    min-height: calc(100vh - 80px);
   }
 }
 </style>
