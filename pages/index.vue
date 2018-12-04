@@ -7,8 +7,13 @@
         :report="report" 
         :key="key"/>
       <div 
-        v-if="isGoNextPage" 
-        class="load"
+        v-if="isLoading && isGoNextPage" 
+        class="loading">
+        Loading...
+      </div>
+      <div 
+        v-if="!isLoading && isGoNextPage" 
+        class="load-button"
         @click="addReports">
         続きを読み込む
       </div>
@@ -82,7 +87,8 @@ export default {
   computed: {
     ...mapGetters({
       reports: 'report/reports',
-      isGoNextPage: 'report/isGoNextPage'
+      isGoNextPage: 'report/isGoNextPage',
+      isLoading: 'report/isLoading'
     })
   },
   created() {
@@ -119,7 +125,13 @@ export default {
   margin-right: 16px;
 }
 
-.load {
+.loading {
+  text-align: center;
+  color: gray;
+  margin-top: 30px;
+}
+
+.load-button {
   background: #d9f8e9;
   padding: 16px;
   font-size: 16px;

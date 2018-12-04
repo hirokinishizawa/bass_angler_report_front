@@ -21,6 +21,7 @@ export default {
 .app {
   &__wrapper {
     padding-top: 80px;
+    padding-bottom: 50px;
     background-color: whitesmoke;
   }
   &__container {

@@ -5,11 +5,11 @@
         ref="form" 
         :model="formData" 
         label-width="120px">
-        <el-form-item label="メールアドレス:">
-          <el-input v-model="formData.email"/>
+        <el-form-item label="アカウント名:">
+          <el-input v-model="formData.account"/>
           <p 
             v-if="hasError" 
-            class="error">メールアドレスまたはパスワードが間違っています。</p>
+            class="error">アカウントまたはパスワードが間違っています。</p>
         </el-form-item>
         <el-form-item label="パスワード:">
           <el-input v-model="formData.password"/>
@@ -38,8 +38,7 @@ export default {
   data() {
     return {
       formData: {
-        name: '',
-        email: '',
+        account: '',
         password: ''
       },
       isBusy: false,

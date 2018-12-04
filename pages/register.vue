@@ -11,6 +11,9 @@
         <el-form-item label="メールアドレス:">
           <el-input v-model="formData.email"/>
         </el-form-item>
+        <el-form-item label="アカウント名:">
+          <el-input v-model="formData.account"/>
+        </el-form-item>
         <el-form-item label="パスワード:">
           <el-input v-model="formData.password"/>
         </el-form-item>
@@ -36,6 +39,7 @@ export default {
       formData: {
         name: '',
         email: '',
+        account: '',
         password: ''
       }
     }

@@ -8,7 +8,8 @@ const state = {
     page: 1,
     last_page: 1
   },
-  isGoNextPage: true
+  isGoNextPage: true,
+  isLoading: false
 }
 
 const getters = {
@@ -20,12 +21,16 @@ const getters = {
   },
   isGoNextPage: state => {
     return state.isGoNextPage
+  },
+  isLoading: state => {
+    return state.isLoading
   }
 }
 
 const actions = {
   async fetchReports({ state, commit }) {
     try {
+      commit('toggleLoading')
       if (state.isGoNextPage) {
         const queryParams = state.pagination.page
         const res = await this.$axios.get(`/api/report?page=${queryParams}`)
@@ -35,6 +40,8 @@ const actions = {
       return
     } catch (err) {
       console.error(err)
+    } finally {
+      commit('toggleLoading')
     }
   }
 }
@@ -52,6 +59,9 @@ const mutations = {
     } else {
       state.isGoNextPage = false
     }
+  },
+  toggleLoading(state) {
+    state.isLoading = !state.isLoading
   }
 }
 
