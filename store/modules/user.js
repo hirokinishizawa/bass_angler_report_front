@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
   async fetch({ commit }) {
-    const user = await agentApi.getMe(this)
+    const user = await this.$axios.get('/api/me')
     commit('set', user)
   }
 }

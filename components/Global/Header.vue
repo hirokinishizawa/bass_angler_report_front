@@ -5,9 +5,23 @@
         <img src="~assets/img/d-bass.png">
       </nuxt-link>
     </div>
-    <div 
-      v-if="loggedIn" 
-      class="header-right"/>
+    <div class="header-right">
+      <template v-if="loggedIn">
+        <span 
+          class="column" 
+          @click="isShow = true">
+          投稿する
+        </span>
+      </template>
+      <template v-else>
+        <span class="column">
+          <nuxt-link to="/login">ログイン</nuxt-link>
+        </span>
+        <span class="column">
+          <nuxt-link to="/register">アカウント登録</nuxt-link>
+        </span>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -16,9 +30,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Header',
+  data() {
+    return {
+      isShow: false
+    }
+  },
   computed: {
     ...mapGetters({
-      accessToken: 'auth/accessToken',
       user: 'user/user'
     }),
     loggedIn() {
@@ -29,6 +47,11 @@ export default {
     },
     userName() {
       return this.user ? `${this.user.sei}${this.user.mei}` : ''
+    }
+  },
+  method: {
+    closeModal() {
+      this.isShow = false
     }
   }
 }
@@ -46,6 +69,8 @@ export default {
   top: 0;
   left: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
 
   .logo {
     float: left;
@@ -75,7 +100,26 @@ export default {
   }
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  line-height: 50px;
+  .column {
+    color: gray;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 10px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    &:hover {
+      background-color: rgb(241, 241, 241);
+    }
+  }
+}
+
 a {
+  color: gray;
   display: block;
   width: 100%;
   text-align: center;

@@ -18,4 +18,7 @@ export default async ({ store, app, route, redirect }) => {
     }
     app.$axios.setToken(store.getters['auth/accessToken'], 'Bearer')
   }
+  if (!store.getters['user/user']) {
+    await store.dispatch('user/fetch')
+  }
 }
