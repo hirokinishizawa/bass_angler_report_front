@@ -2,10 +2,10 @@
   <el-card>
     <div class="user-information">
       <div class="name">
-        {{ report.name }}
+        {{ report.user.name }}
       </div>
       <div class="user-id">
-        @{{ report.user_id }}
+        @{{ report.user.account }}
       </div>
     </div>
     <div class="address">
@@ -40,6 +40,7 @@ export default {
 .el-card {
   width: 100%;
   position: relative;
+  margin-bottom: 8px;
 }
 .user-information {
   display: flex;

@@ -1,6 +1,5 @@
 export const setAuthData = authData => {
   if (process.server) return
-  console.log(authData)
   if (authData.token) {
     window.localStorage.setItem('accessToken', authData.token)
   } else {
