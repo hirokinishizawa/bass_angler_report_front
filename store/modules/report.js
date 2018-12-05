@@ -36,7 +36,7 @@ const actions = {
         const queryParams = state.pagination.page
         const res = await this.$axios.get(`/api/report?page=${queryParams}`)
         commit('addReports', res.data.data)
-        commit('fetchPagination', res.data)
+        commit('fetchPagination', res.data.meta)
       }
       return
     } catch (err) {

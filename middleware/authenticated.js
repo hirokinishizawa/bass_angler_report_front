@@ -1,5 +1,3 @@
-import { includes } from 'lodash-es'
-
 export default async ({ store, app, route, redirect }) => {
   if (!store.getters['auth/accessToken']) {
     const next = encodeURIComponent(route.fullPath)

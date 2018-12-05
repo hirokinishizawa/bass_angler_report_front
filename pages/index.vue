@@ -4,7 +4,7 @@
       <div class="title">みんなの投稿</div>
       <report-row 
         v-for="(report, key) in reports" 
-        :report="report" 
+        :report="report.report" 
         :key="key"/>
       <div 
         v-if="isLoading && isGoNextPage" 
