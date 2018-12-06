@@ -18,19 +18,47 @@
     <div class="size">
       {{ report.size }}cm
     </div>
-    <div class="good">
-      いいね{{ report.good_count }}
+    <div 
+      :class="{ghost: good}" 
+      class="good"
+      @click="onSubmit">
+      <div class="text">いいね</div>
+      <i 
+        v-if="report.goods_count" 
+        class="el-icon-circle-check"/>
+      <div 
+        v-if="report.goods_count" 
+        class="count">{{ report.goods_count }}</div>
     </div>
-
   </el-card>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     report: {
       type: Object,
       required: true
+    },
+    good: {
+      type: Object,
+      required: false,
+      default: null
+    }
+  },
+  methods: {
+    ...mapActions({
+      deleteReportGood: 'report/deleteReportGood',
+      addReportGood: 'report/addReportGood'
+    }),
+    async onSubmit() {
+      if (this.good) {
+        await this.deleteReportGood(this.good)
+      } else {
+        await this.addReportGood(this.report.id)
+      }
     }
   }
 }
@@ -88,9 +116,14 @@ export default {
   line-height: 1;
   border: 2px solid skyblue;
   border-radius: 4px;
+  display: flex;
   cursor: pointer;
   &:hover {
     opacity: 0.6;
   }
+}
+.ghost {
+  color: white;
+  background-color: skyblue;
 }
 </style>

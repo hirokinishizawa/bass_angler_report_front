@@ -48,6 +48,16 @@ const actions = {
   async createReport({ commit }, formData) {
     const data = await this.$axios.post('/api/report', formData)
     commit('addReports', [data.data])
+  },
+  async addReportGood({ commit }, reportId) {
+    const res = await this.$axios.post(`/api/report/${reportId}/good`)
+    commit('addGoodCount', res.data)
+  },
+  async deleteReportGood({ commit }, data) {
+    const res = await this.$axios.post(
+      `/api/report/${data.report_id}/good/${data.id}`
+    )
+    commit('deleteGoodCount', res.data)
   }
 }
 
@@ -67,6 +77,21 @@ const mutations = {
   },
   toggleLoading(state) {
     state.isLoading = !state.isLoading
+  },
+  addGoodCount(state, data) {
+    state.reports.forEach((repo, key) => {
+      if (repo.report.id === data.report.id) {
+        Vue.set(state.reports, key, data)
+      }
+    })
+  },
+  deleteGoodCount(state, data) {
+    state.reports.forEach((repo, key) => {
+      if (repo.report.id === data.id) {
+        Vue.set(state.reports[key], 'report', data)
+        Vue.set(state.reports[key], 'good', null)
+      }
+    })
   }
 }
 

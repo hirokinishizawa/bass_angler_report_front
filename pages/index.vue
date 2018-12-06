@@ -3,8 +3,9 @@
     <div class="time-line">
       <div class="title">みんなの投稿</div>
       <report-row 
-        v-for="(report, key) in reports" 
-        :report="report.report" 
+        v-for="(data, key) in reports" 
+        :report="data.report"
+        :good="data.good"
         :key="key"/>
       <div 
         v-if="isLoading && isGoNextPage" 
