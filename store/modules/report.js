@@ -35,7 +35,7 @@ const actions = {
       if (state.isGoNextPage) {
         const queryParams = state.pagination.page
         const res = await this.$axios.get(`/api/report?page=${queryParams}`)
-        commit('addReports', res.data.data)
+        commit('fetchReports', res.data.data)
         commit('fetchPagination', res.data.meta)
       }
       return
@@ -62,9 +62,14 @@ const actions = {
 }
 
 const mutations = {
-  addReports(state, data) {
+  fetchReports(state, data) {
     forEach(data, d => {
       state.reports.push(d)
+    })
+  },
+  addReports(state, data) {
+    forEach(data, d => {
+      state.reports.unshift(d)
     })
   },
   fetchPagination(state, data) {
