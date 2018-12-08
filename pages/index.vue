@@ -22,8 +22,9 @@
     <div class="like-ranking">
       <div class="title">いいねランキング</div>
       <like-ranking-row 
-        v-for="(report, key) in rankingList" 
-        :report="report" 
+        v-for="(data, key) in reportRanking" 
+        :report="data.report"
+        :good="data.good"
         :key="key"/>
     </div>
   </div>
@@ -39,57 +40,12 @@ export default {
     LikeRankingRow
   },
   middleware: ['authenticated'],
-  data() {
-    return {
-      rankingList: [
-        {
-          name: '西澤ひろき',
-          user_id: 'hiroki0206',
-          address: '千葉県鴨川市保台ダム',
-          prefecture: '千葉県',
-          description:
-            'ブルフラット3inchのテキサスでねちねちやってたら釣れました。',
-          size: 40,
-          good_count: 20
-        },
-        {
-          name: '西澤ひろき',
-          user_id: 'hiroki0206',
-          address: '千葉県鴨川市保台ダム',
-          prefecture: '千葉県',
-          description:
-            'ブルフラット3inchのテキサスでねちねちやってたら釣れました。',
-          size: 40,
-          good_count: 20
-        },
-        {
-          name: '西澤ひろき',
-          user_id: 'hiroki0206',
-          address: '千葉県鴨川市保台ダム',
-          prefecture: '千葉県',
-          description:
-            'ブルフラット3inchのテキサスでねちねちやってたら釣れました。',
-          size: 40,
-          good_count: 20
-        },
-        {
-          name: '西澤ひろき',
-          user_id: 'hiroki0206',
-          address: '千葉県鴨川市保台ダム',
-          prefecture: '千葉県',
-          description:
-            'ブルフラット3inchのテキサスでねちねちやってたら釣れました。',
-          size: 40,
-          good_count: 20
-        }
-      ]
-    }
-  },
   computed: {
     ...mapGetters({
       reports: 'report/reports',
       isGoNextPage: 'report/isGoNextPage',
-      isLoading: 'report/isLoading'
+      isLoading: 'report/isLoading',
+      reportRanking: 'report/reportRanking'
     })
   },
   created() {

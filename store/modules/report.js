@@ -1,10 +1,11 @@
 import Vue from 'vue'
-import { forEach } from 'lodash-es'
+import { forEach, filter, orderBy, slice } from 'lodash-es'
 
 const namespaced = true
 
 const state = {
   reports: [],
+  reportRanking: [],
   pagination: {
     page: 1,
     last_page: 1
@@ -16,6 +17,9 @@ const state = {
 const getters = {
   reports: state => {
     return state.reports
+  },
+  reportRanking: state => {
+    return state.reportRanking
   },
   pagination: state => {
     return state.pagination
@@ -34,9 +38,11 @@ const actions = {
       commit('toggleLoading')
       if (state.isGoNextPage) {
         const queryParams = state.pagination.page
-        const res = await this.$axios.get(`/api/report?page=${queryParams}`)
-        commit('fetchReports', res.data.data)
-        commit('fetchPagination', res.data.meta)
+        const reports = await this.$axios.get(`/api/report?page=${queryParams}`)
+        const reportRanking = await this.$axios.get('/api/report/ranking')
+        commit('fetchReports', reports.data.data)
+        commit('fetchPagination', reports.data.meta)
+        commit('fetchReportRanking', reportRanking.data)
       }
       return
     } catch (err) {
@@ -67,6 +73,11 @@ const mutations = {
       state.reports.push(d)
     })
   },
+  fetchReportRanking(state, data) {
+    forEach(data, d => {
+      state.reportRanking.push(d)
+    })
+  },
   addReports(state, data) {
     forEach(data, d => {
       state.reports.unshift(d)
@@ -89,12 +100,23 @@ const mutations = {
         Vue.set(state.reports, key, data)
       }
     })
+    state.reportRanking.forEach((repo, key) => {
+      if (repo.report.id === data.report.id) {
+        Vue.set(state.reportRanking, key, data)
+      }
+    })
   },
   deleteGoodCount(state, data) {
     state.reports.forEach((repo, key) => {
       if (repo.report.id === data.id) {
         Vue.set(state.reports[key], 'report', data)
         Vue.set(state.reports[key], 'good', null)
+      }
+    })
+    state.reportRanking.forEach((repo, key) => {
+      if (repo.report.id === data.id) {
+        Vue.set(state.reportRanking[key], 'report', data)
+        Vue.set(state.reportRanking[key], 'good', null)
       }
     })
   }

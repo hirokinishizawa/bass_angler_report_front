@@ -24,7 +24,7 @@
       @click="onSubmit">
       <div class="text">いいね</div>
       <i 
-        v-if="report.goods_count" 
+        v-if="good" 
         class="el-icon-circle-check"/>
       <div 
         v-if="report.goods_count" 
