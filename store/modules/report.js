@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { forEach, filter, orderBy, slice } from 'lodash-es'
+import { forEach } from 'lodash-es'
 
 const namespaced = true
 
