@@ -45,7 +45,7 @@ const actions = {
         const reports = await this.$axios.get(`/api/report?page=${queryParams}`)
         const reportRanking = await this.$axios.get('/api/report/ranking')
         commit('fetchReports', reports.data.data)
-        commit('fetchPagination', reports.data.meta)
+        commit('fetchPagination', reports.data)
         commit('fetchReportRanking', reportRanking.data)
       }
       return
@@ -65,7 +65,7 @@ const actions = {
         )
         const reportRanking = await this.$axios.get('/api/report/ranking')
         commit('fetchMyReports', reports.data.data)
-        commit('fetchPagination', reports.data.meta)
+        commit('fetchPagination', reports.data)
         commit('fetchReportRanking', reportRanking.data)
       }
       return
@@ -76,8 +76,8 @@ const actions = {
     }
   },
   async createReport({ commit }, formData) {
-    const data = await this.$axios.post('/api/report', formData)
-    commit('addReports', [data.data])
+    const res = await this.$axios.post('/api/report', formData)
+    commit('addReports', res.data)
   },
   async addReportGood({ commit }, reportId) {
     const res = await this.$axios.post(`/api/report/${reportId}/good`)
@@ -108,9 +108,7 @@ const mutations = {
     })
   },
   addReports(state, data) {
-    forEach(data, d => {
-      state.reports.unshift(d)
-    })
+    state.reports.unshift(data)
   },
   addMyReports(state, data) {
     forEach(data, d => {

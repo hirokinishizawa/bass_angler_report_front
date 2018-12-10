@@ -13,12 +13,12 @@
     </div>
     <div class="size">{{ report.size }}cm</div>
     <div 
-      :class="{ghost: good}" 
+      :class="{ghost: report.good}" 
       class="good" 
       @click="onSubmit">
       <div class="text">いいね</div>
       <i 
-        v-if="good" 
+        v-if="report.good" 
         class="el-icon-circle-check"/>
       <div 
         v-if="report.goods_count" 
@@ -35,11 +35,6 @@ export default {
     report: {
       type: Object,
       required: true
-    },
-    good: {
-      type: Object,
-      required: false,
-      default: null
     }
   },
   computed: {
@@ -53,8 +48,8 @@ export default {
       addReportGood: 'report/addReportGood'
     }),
     async onSubmit() {
-      if (this.good) {
-        await this.deleteReportGood(this.good)
+      if (this.report.good) {
+        await this.deleteReportGood(this.report.good)
       } else {
         await this.addReportGood(this.report.id)
       }

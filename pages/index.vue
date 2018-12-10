@@ -3,9 +3,8 @@
     <div class="time-line">
       <div class="title">みんなの投稿</div>
       <report-row 
-        v-for="(data, key) in reports" 
-        :report="data.report"
-        :good="data.good"
+        v-for="(report, key) in reports" 
+        :report="report"
         :key="key"/>
       <div 
         v-if="isLoading && isGoNextPage" 
@@ -22,9 +21,8 @@
     <div class="like-ranking">
       <div class="title">いいねランキング</div>
       <like-ranking-row 
-        v-for="(data, key) in reportRanking" 
-        :report="data.report"
-        :good="data.good"
+        v-for="(report, key) in reportRanking" 
+        :report="report"
         :key="key"/>
     </div>
   </div>
