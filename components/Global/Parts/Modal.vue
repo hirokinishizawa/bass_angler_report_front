@@ -118,12 +118,12 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-bottom: solid 1px #e7e9ed;
-    background-color: lightgray;
+    background-color: lightcyan;
 
     .header__title {
       font-family: HiraKakuProN-W6;
       font-size: 1rem;
-      color: darkgray;
+      color: #666;
       letter-spacing: 0;
       line-height: 1rem;
     }

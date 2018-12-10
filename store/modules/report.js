@@ -5,6 +5,7 @@ const namespaced = true
 
 const state = {
   reports: [],
+  myReports: [],
   reportRanking: [],
   pagination: {
     page: 1,
@@ -17,6 +18,9 @@ const state = {
 const getters = {
   reports: state => {
     return state.reports
+  },
+  myReports: state => {
+    return state.myReports
   },
   reportRanking: state => {
     return state.reportRanking
@@ -51,6 +55,26 @@ const actions = {
       commit('toggleLoading')
     }
   },
+  async fetchMyReports({ state, commit }) {
+    try {
+      commit('toggleLoading')
+      if (state.isGoNextPage) {
+        const queryParams = state.pagination.page
+        const reports = await this.$axios.get(
+          `/api/my-report?page=${queryParams}`
+        )
+        const reportRanking = await this.$axios.get('/api/report/ranking')
+        commit('fetchMyReports', reports.data.data)
+        commit('fetchPagination', reports.data.meta)
+        commit('fetchReportRanking', reportRanking.data)
+      }
+      return
+    } catch (err) {
+      console.error(err)
+    } finally {
+      commit('toggleLoading')
+    }
+  },
   async createReport({ commit }, formData) {
     const data = await this.$axios.post('/api/report', formData)
     commit('addReports', [data.data])
@@ -73,6 +97,11 @@ const mutations = {
       state.reports.push(d)
     })
   },
+  fetchMyReports(state, data) {
+    forEach(data, d => {
+      state.myReports.push(d)
+    })
+  },
   fetchReportRanking(state, data) {
     forEach(data, d => {
       state.reportRanking.push(d)
@@ -81,6 +110,11 @@ const mutations = {
   addReports(state, data) {
     forEach(data, d => {
       state.reports.unshift(d)
+    })
+  },
+  addMyReports(state, data) {
+    forEach(data, d => {
+      state.myReports.unshift(d)
     })
   },
   fetchPagination(state, data) {

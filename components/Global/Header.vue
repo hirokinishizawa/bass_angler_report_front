@@ -12,6 +12,9 @@
           @click="isShow = true">
           投稿する
         </span>
+        <span class="column">
+          <nuxt-link to="/my-page">マイページ</nuxt-link>
+        </span>
       </template>
       <template v-else>
         <span class="column">
