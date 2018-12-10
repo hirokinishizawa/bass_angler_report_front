@@ -128,27 +128,25 @@ const mutations = {
   },
   addGoodCount(state, data) {
     state.reports.forEach((repo, key) => {
-      if (repo.report.id === data.report.id) {
+      if (repo.id === data.id) {
         Vue.set(state.reports, key, data)
       }
     })
     state.reportRanking.forEach((repo, key) => {
-      if (repo.report.id === data.report.id) {
+      if (repo.id === data.id) {
         Vue.set(state.reportRanking, key, data)
       }
     })
   },
   deleteGoodCount(state, data) {
     state.reports.forEach((repo, key) => {
-      if (repo.report.id === data.id) {
-        Vue.set(state.reports[key], 'report', data)
-        Vue.set(state.reports[key], 'good', null)
+      if (repo.id === data.id) {
+        Vue.set(state.reports, key, data)
       }
     })
     state.reportRanking.forEach((repo, key) => {
-      if (repo.report.id === data.id) {
-        Vue.set(state.reportRanking[key], 'report', data)
-        Vue.set(state.reportRanking[key], 'good', null)
+      if (repo.id === data.id) {
+        Vue.set(state.reportRanking, key, data)
       }
     })
   }
