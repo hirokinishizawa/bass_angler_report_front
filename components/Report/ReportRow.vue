@@ -1,26 +1,20 @@
 <template>
   <el-card>
     <div class="user-information">
-      <div class="name">
-        {{ report.user.name }}
-      </div>
-      <div class="user-id">
-        @{{ report.user.account }}
-      </div>
+      <div class="name">{{ report.user.name }}</div>
+      <div class="user-id">@{{ report.user.account }}</div>
     </div>
-    <div class="address">
-      {{ report.address }}
+    <div class="address">{{ report.address }}</div>
+    <div class="description">{{ report.description }}</div>
+    <div 
+      v-if="report.image_filename" 
+      class="image">
+      <img :src="imageUrl">
     </div>
-    <div class="description">
-      {{ report.description }}
-    </div>
-    <div class="image"/>
-    <div class="size">
-      {{ report.size }}cm
-    </div>
+    <div class="size">{{ report.size }}cm</div>
     <div 
       :class="{ghost: good}" 
-      class="good"
+      class="good" 
       @click="onSubmit">
       <div class="text">いいね</div>
       <i 
@@ -46,6 +40,11 @@ export default {
       type: Object,
       required: false,
       default: null
+    }
+  },
+  computed: {
+    imageUrl() {
+      return `http://localhost:8000/images/${this.report.image_filename}`
     }
   },
   methods: {
@@ -125,5 +124,9 @@ export default {
 .ghost {
   color: white;
   background-color: skyblue;
+}
+
+.image img {
+  width: 100%;
 }
 </style>

@@ -35,7 +35,7 @@
         <el-form-item label="画像">
           <img 
             v-show="uploadedImage" 
-            :src="uploadedImage" >
+            :src="uploadedImage">
           <input 
             type="file" 
             @change="onFileChange">
@@ -60,7 +60,8 @@ export default {
         size: '',
         prefectures: '',
         address: '',
-        description: ''
+        description: '',
+        image_filename: ''
       },
       uploadFile: null,
       uploadedImage: '',
@@ -79,9 +80,10 @@ export default {
       this.uploadFile = files[0]
       let formData = new FormData()
       formData.append('image_filename', this.uploadFile)
-      const s = await this.$axios.post('/api/report/upload', formData)
-      console.log(s)
-      this.createImage(files[0])
+      const res = await this.$axios.post('/api/report/upload', formData)
+      console.log(res)
+      this.createImage(this.uploadFile)
+      this.formData.image_filename = res.data
     },
     // アップロードした画像を表示
     createImage(file) {
