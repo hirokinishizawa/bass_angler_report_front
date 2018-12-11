@@ -7,6 +7,9 @@
         :report="report"
         :key="key"/>
       <div 
+        v-if="!isLoading && !myReports.length" 
+        class="nothing">投稿してみましょう！</div>
+      <div
         v-if="isLoading && isMyGoNextPage" 
         class="loading">
         Loading...
@@ -41,7 +44,7 @@ export default {
   computed: {
     ...mapGetters({
       myReports: 'report/myReports',
-      isMyGoNextPage: 'report/isGoNextPage',
+      isMyGoNextPage: 'report/isMyGoNextPage',
       isLoading: 'report/isLoading',
       reportRanking: 'report/reportRanking'
     })

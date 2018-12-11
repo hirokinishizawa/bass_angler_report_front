@@ -11,8 +11,11 @@
             v-if="hasError" 
             class="error">アカウントまたはパスワードが間違っています。</p>
         </el-form-item>
-        <el-form-item label="パスワード:">
-          <el-input v-model="formData.password"/>
+        <el-form-item 
+          label="パスワード:" >
+          <el-input 
+            v-model="formData.password" 
+            type="password"/>
         </el-form-item>
         <div class="submit">
           <el-button 

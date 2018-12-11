@@ -14,8 +14,11 @@
         <el-form-item label="アカウント名:">
           <el-input v-model="formData.account"/>
         </el-form-item>
-        <el-form-item label="パスワード:">
-          <el-input v-model="formData.password"/>
+        <el-form-item 
+          label="パスワード:" >
+          <el-input 
+            v-model="formData.password" 
+            type="password"/>
         </el-form-item>
         <div class="submit">
           <el-button 
@@ -49,7 +52,7 @@ export default {
       await authApi
         .register(this, this.formData)
         .then(res => {
-          console.log(res)
+          this.$router.push({ name: 'login' })
         })
         .catch(err => {
           console.error(err)

@@ -49,6 +49,7 @@
 <script>
 import Modal from '@/components/Global/Parts/Modal'
 import prefectures from '@/config/Prefectures'
+import { clone } from 'lodash-es'
 
 export default {
   components: {
@@ -73,6 +74,9 @@ export default {
       this.$emit('cancel')
     },
     doSubmit() {
+      this.formData.address = clone(
+        `${this.formData.prefectures}${this.formData.address}`
+      )
       this.$emit('submit', this.formData)
     },
     async onFileChange(e) {

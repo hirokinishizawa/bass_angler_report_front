@@ -15,6 +15,9 @@
         <span class="column">
           <nuxt-link to="/my-page">マイページ</nuxt-link>
         </span>
+        <span class="column">
+          <nuxt-link :to="{name: 'logout'}">ログアウト</nuxt-link>
+        </span>
       </template>
       <template v-else>
         <span class="column">
@@ -89,7 +92,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 5;
   display: flex;
   justify-content: space-between;
 

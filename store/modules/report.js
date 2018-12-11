@@ -51,8 +51,6 @@ const actions = {
   async fetchReports({ state, commit }) {
     try {
       commit('toggleLoading')
-      commit('clearRanking')
-      console.log('ssss')
       if (state.isGoNextPage) {
         const queryParams = state.pagination.page
         const reports = await this.$axios.get(`/api/report?page=${queryParams}`)
@@ -71,7 +69,6 @@ const actions = {
   async fetchMyReports({ state, commit }) {
     try {
       commit('toggleLoading')
-      commit('clearRanking')
       if (state.isMyGoNextPage) {
         const queryParams = state.myPagination.page
         const reports = await this.$axios.get(
@@ -92,6 +89,7 @@ const actions = {
   async createReport({ commit }, formData) {
     const res = await this.$axios.post('/api/report', formData)
     commit('addReports', res.data)
+    commit('addMyReports', res.data)
   },
   async addReportGood({ commit }, reportId) {
     const res = await this.$axios.post(`/api/report/${reportId}/good`)
@@ -107,27 +105,25 @@ const actions = {
 
 const mutations = {
   fetchReports(state, data) {
-    forEach(data, d => {
-      state.reports.push(d)
+    forEach(data, (d, key) => {
+      Vue.set(state.reports, key, d)
     })
   },
   fetchMyReports(state, data) {
-    forEach(data, d => {
-      state.myReports.push(d)
+    forEach(data, (d, key) => {
+      Vue.set(state.myReports, key, d)
     })
   },
   fetchReportRanking(state, data) {
-    forEach(data, d => {
-      state.reportRanking.push(d)
+    forEach(data, (d, key) => {
+      Vue.set(state.reportRanking, key, d)
     })
   },
   addReports(state, data) {
     state.reports.unshift(data)
   },
   addMyReports(state, data) {
-    forEach(data, d => {
-      state.myReports.unshift(d)
-    })
+    state.myReports.unshift(data)
   },
   fetchPagination(state, data) {
     if (data.last_page > data.current_page) {
@@ -154,6 +150,11 @@ const mutations = {
         Vue.set(state.reports, key, data)
       }
     })
+    state.myReports.forEach((repo, key) => {
+      if (repo.id === data.id) {
+        Vue.set(state.myReports, key, data)
+      }
+    })
     state.reportRanking.forEach((repo, key) => {
       if (repo.id === data.id) {
         Vue.set(state.reportRanking, key, data)
@@ -164,6 +165,11 @@ const mutations = {
     state.reports.forEach((repo, key) => {
       if (repo.id === data.id) {
         Vue.set(state.reports, key, data)
+      }
+    })
+    state.myReports.forEach((repo, key) => {
+      if (repo.id === data.id) {
+        Vue.set(state.myReports, key, data)
       }
     })
     state.reportRanking.forEach((repo, key) => {
