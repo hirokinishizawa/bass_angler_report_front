@@ -11,7 +11,12 @@ const state = {
     page: 1,
     last_page: 1
   },
+  myPagination: {
+    page: 1,
+    last_page: 1
+  },
   isGoNextPage: true,
+  isMyGoNextPage: true,
   isLoading: false
 }
 
@@ -28,8 +33,14 @@ const getters = {
   pagination: state => {
     return state.pagination
   },
+  myPagination: state => {
+    return state.myPagination
+  },
   isGoNextPage: state => {
     return state.isGoNextPage
+  },
+  isMyGoNextPage: state => {
+    return state.isMyGoNextPage
   },
   isLoading: state => {
     return state.isLoading
@@ -40,6 +51,8 @@ const actions = {
   async fetchReports({ state, commit }) {
     try {
       commit('toggleLoading')
+      commit('clearRanking')
+      console.log('ssss')
       if (state.isGoNextPage) {
         const queryParams = state.pagination.page
         const reports = await this.$axios.get(`/api/report?page=${queryParams}`)
@@ -58,14 +71,15 @@ const actions = {
   async fetchMyReports({ state, commit }) {
     try {
       commit('toggleLoading')
-      if (state.isGoNextPage) {
-        const queryParams = state.pagination.page
+      commit('clearRanking')
+      if (state.isMyGoNextPage) {
+        const queryParams = state.myPagination.page
         const reports = await this.$axios.get(
           `/api/my-report?page=${queryParams}`
         )
         const reportRanking = await this.$axios.get('/api/report/ranking')
         commit('fetchMyReports', reports.data.data)
-        commit('fetchPagination', reports.data)
+        commit('fetchMyPagination', reports.data)
         commit('fetchReportRanking', reportRanking.data)
       }
       return
@@ -123,6 +137,14 @@ const mutations = {
       state.isGoNextPage = false
     }
   },
+  fetchMyPagination(state, data) {
+    if (data.last_page > data.current_page) {
+      Vue.set(state.myPagination, 'page', state.myPagination.page + 1)
+      Vue.set(state.myPagination, 'last_page', data.last_page)
+    } else {
+      state.isMyGoNextPage = false
+    }
+  },
   toggleLoading(state) {
     state.isLoading = !state.isLoading
   },
@@ -149,6 +171,9 @@ const mutations = {
         Vue.set(state.reportRanking, key, data)
       }
     })
+  },
+  clearRanking(state) {
+    state.reportRanking = []
   }
 }
 
